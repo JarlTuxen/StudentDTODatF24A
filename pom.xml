@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dk.kea</groupId>
-    <artifactId>StudentDTOStart</artifactId>
+    <artifactId>StudentDTODatF24A</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>StudentDTOStart</name>
     <description>StudentDTOStart</description>

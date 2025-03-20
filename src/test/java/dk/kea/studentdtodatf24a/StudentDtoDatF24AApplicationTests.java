@@ -1,10 +1,10 @@
-package dk.kea.studentdtostart;
+package dk.kea.studentdtodatf24a;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StudentDtoStartApplicationTests {
+class StudentDtoDatF24AApplicationTests {
 
     @Test
     void contextLoads() {

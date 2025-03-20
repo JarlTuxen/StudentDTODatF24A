@@ -1,7 +1,7 @@
-package dk.kea.studentdtostart.api;
+package dk.kea.studentdtodatf24a.api;
 
-import dk.kea.studentdtostart.model.Student;
-import dk.kea.studentdtostart.service.StudentService;
+import dk.kea.studentdtodatf24a.model.Student;
+import dk.kea.studentdtodatf24a.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

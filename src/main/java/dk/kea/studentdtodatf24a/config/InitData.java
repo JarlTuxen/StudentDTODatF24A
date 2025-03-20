@@ -1,7 +1,7 @@
-package dk.kea.studentdtostart.config;
+package dk.kea.studentdtodatf24a.config;
 
-import dk.kea.studentdtostart.model.Student;
-import dk.kea.studentdtostart.repository.StudentRepository;
+import dk.kea.studentdtodatf24a.model.Student;
+import dk.kea.studentdtodatf24a.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

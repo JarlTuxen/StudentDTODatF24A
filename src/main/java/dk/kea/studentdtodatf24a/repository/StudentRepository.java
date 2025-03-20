@@ -1,6 +1,6 @@
-package dk.kea.studentdtostart.repository;
+package dk.kea.studentdtodatf24a.repository;
 
-import dk.kea.studentdtostart.model.Student;
+import dk.kea.studentdtodatf24a.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
