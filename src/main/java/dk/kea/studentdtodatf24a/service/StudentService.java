@@ -2,6 +2,7 @@ package dk.kea.studentdtodatf24a.service;
 
 import dk.kea.studentdtodatf24a.dto.StudentRequestDTO;
 import dk.kea.studentdtodatf24a.dto.StudentResponseDTO;
+import dk.kea.studentdtodatf24a.mapper.StudentMapper;
 import dk.kea.studentdtodatf24a.model.Student;
 import dk.kea.studentdtodatf24a.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
 
     // Constructor injection
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
     }
 
     public List<StudentResponseDTO> getAllStudents() {
@@ -26,13 +29,18 @@ public class StudentService {
 
         // Using a for-loop to convert each Student to a StudentResponseDTO
         for (Student student : students) {
+            /*
             StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                     student.getId(),
                     student.getName(),
                     student.getBornDate(),
                     student.getBornTime()
             );
+
             studentResponseDTOs.add(studentResponseDTO);
+
+             */
+            studentResponseDTOs.add(studentMapper.toDTO(student));
         }
 
         return studentResponseDTOs;
@@ -48,13 +56,16 @@ public class StudentService {
 
         Student studentResponse = optionalStudent.get();
 
+        /*
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                 studentResponse.getId(),
                 studentResponse.getName(),
                 studentResponse.getBornDate(),
                 studentResponse.getBornTime()
         );
+         */
 
+        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
         return studentResponseDTO;
 
     }
@@ -62,21 +73,27 @@ public class StudentService {
     public StudentResponseDTO createStudent(StudentRequestDTO studentRequestDTO) {
         //Student studentResponse = studentRepository.save(studentRequest);
 
+        /*
         Student newStudent = new Student(
                 studentRequestDTO.name(),
                 studentRequestDTO.password(),
                 studentRequestDTO.bornDate(),
                 studentRequestDTO.bornTime()
         );
+         */
+        Student newStudent = studentMapper.toEntity(studentRequestDTO);
 
         Student savedStudent = studentRepository.save(newStudent);
 
+        /*
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                 savedStudent.getId(),
                 savedStudent.getName(),
                 savedStudent.getBornDate(),
                 savedStudent.getBornTime()
         );
+         */
+        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(savedStudent);
 
         return studentResponseDTO;
     }
@@ -89,20 +106,25 @@ public class StudentService {
         }
 
         Student student = optionalStudent.get();
-
+        /*
         student.setName(studentRequestDTO.name());
         student.setPassword(studentRequestDTO.password());
         student.setBornDate(studentRequestDTO.bornDate());
         student.setBornTime(studentRequestDTO.bornTime());
+         */
+        studentMapper.updateEntity(student, studentRequestDTO);
 
         Student studentResponse = studentRepository.save(student);
 
+        /*
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                 studentResponse.getId(),
                 studentResponse.getName(),
                 studentResponse.getBornDate(),
                 studentResponse.getBornTime()
         );
+         */
+        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
 
         return studentResponseDTO;
     }
