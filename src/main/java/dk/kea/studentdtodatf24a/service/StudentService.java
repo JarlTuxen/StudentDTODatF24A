@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -24,11 +25,15 @@ public class StudentService {
     }
 
     public List<StudentResponseDTO> getAllStudents() {
-        List<Student> students = studentRepository.findAll();
+        /* List<Student> students = studentRepository.findAll();
         List<StudentResponseDTO> studentResponseDTOs = new ArrayList<>();
 
+
+         */
         // Using a for-loop to convert each Student to a StudentResponseDTO
-        for (Student student : students) {
+       /* for (Student student : students) {
+
+        */
             /*
             StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                     student.getId(),
@@ -40,14 +45,20 @@ public class StudentService {
             studentResponseDTOs.add(studentResponseDTO);
 
              */
+            /*
             studentResponseDTOs.add(studentMapper.toDTO(student));
         }
 
         return studentResponseDTOs;
+    */
+        return studentRepository.findAll().stream()
+                .map(studentMapper::toDTO)
+                //.map(student -> studentMapper.toDTO(student))
+                .collect(Collectors.toList());
     }
 
     public StudentResponseDTO getStudentById(Long id) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
+        /*Optional<Student> optionalStudent = studentRepository.findById(id);
 
         // Throw RuntimeException if student is not found
         if (optionalStudent.isEmpty()) {
@@ -55,7 +66,7 @@ public class StudentService {
         }
 
         Student studentResponse = optionalStudent.get();
-
+        */
         /*
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
                 studentResponse.getId(),
@@ -65,8 +76,12 @@ public class StudentService {
         );
          */
 
-        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
-        return studentResponseDTO;
+        /*StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
+        return studentResponseDTO;*/
+
+        Student responseStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student with id " + id + " not found"));
+        return studentMapper.toDTO(responseStudent);
 
     }
 
@@ -93,28 +108,30 @@ public class StudentService {
                 savedStudent.getBornTime()
         );
          */
-        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(savedStudent);
+        //StudentResponseDTO studentResponseDTO = studentMapper.toDTO(savedStudent);
+        //return studentResponseDTO;
 
-        return studentResponseDTO;
+        return studentMapper.toDTO(savedStudent);
     }
 
     public StudentResponseDTO updateStudent(Long id, StudentRequestDTO studentRequestDTO) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
+        /*Optional<Student> optionalStudent = studentRepository.findById(id);
         // Throw RuntimeException if student is not found
         if (optionalStudent.isEmpty()) {
             throw new RuntimeException("Student not found with id " + id);
         }
 
         Student student = optionalStudent.get();
+
+         */
         /*
         student.setName(studentRequestDTO.name());
         student.setPassword(studentRequestDTO.password());
         student.setBornDate(studentRequestDTO.bornDate());
         student.setBornTime(studentRequestDTO.bornTime());
          */
-        studentMapper.updateEntity(student, studentRequestDTO);
+        //studentMapper.updateEntity(student, studentRequestDTO);
 
-        Student studentResponse = studentRepository.save(student);
 
         /*
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO(
@@ -124,9 +141,15 @@ public class StudentService {
                 studentResponse.getBornTime()
         );
          */
-        StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
+        /*StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
 
-        return studentResponseDTO;
+        return studentResponseDTO;*/
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student with id " + id + " not found"));
+
+        Student studentResponse = studentRepository.save(student);
+
+        return studentMapper.toDTO(studentResponse);
     }
 
     public void deleteStudent(Long id) {
