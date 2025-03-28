@@ -144,11 +144,19 @@ public class StudentService {
         /*StudentResponseDTO studentResponseDTO = studentMapper.toDTO(studentResponse);
 
         return studentResponseDTO;*/
+
+        //find studerende med id og pak ud hvis fundet
         Student student = studentRepository.findById(id)
+                //kast fejl hvis ikke fundet
                 .orElseThrow(() -> new RuntimeException("Student with id " + id + " not found"));
 
+        //opdater studerende med requestDTO
+        studentMapper.updateEntity(student, studentRequestDTO);
+
+        //gem opdaterede studerende
         Student studentResponse = studentRepository.save(student);
 
+        //lav studerende om til DTO og returner
         return studentMapper.toDTO(studentResponse);
     }
 
